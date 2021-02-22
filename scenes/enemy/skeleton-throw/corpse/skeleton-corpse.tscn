@@ -1,0 +1,329 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-hand2.png" type="Texture" id=1]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-ribs.png" type="Texture" id=2]
+[ext_resource path="res://scenes/enemy/corpse.gd" type="Script" id=3]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-leg1.png" type="Texture" id=4]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-forearm1.png" type="Texture" id=5]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-leg2.png" type="Texture" id=6]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-waist.png" type="Texture" id=7]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-foot1.png" type="Texture" id=8]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-foot2.png" type="Texture" id=9]
+[ext_resource path="res://shaders/dust/to_dust_particle.shader" type="Shader" id=10]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-head.png" type="Texture" id=11]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-arm2.png" type="Texture" id=12]
+[ext_resource path="res://sprites/skeleton-throw/corpse/sk1-death-hand1.png" type="Texture" id=13]
+[ext_resource path="res://cammello2.png" type="Texture" id=14]
+[ext_resource path="res://shaders/dust/dust_emitter.tscn" type="PackedScene" id=15]
+
+[sub_resource type="PhysicsMaterial" id=12]
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = ExtResource( 10 )
+shader_param/tzero = 0.0
+shader_param/duration = 4.0
+
+[sub_resource type="ShaderMaterial" id=14]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/tzero = 0.0
+shader_param/duration = 4.0
+shader_param/sprite = ExtResource( 14 )
+
+[sub_resource type="CapsuleShape2D" id=1]
+height = 10.6867
+
+[sub_resource type="CapsuleShape2D" id=2]
+height = 47.4296
+
+[sub_resource type="CapsuleShape2D" id=3]
+height = 21.8514
+
+[sub_resource type="CapsuleShape2D" id=4]
+
+[sub_resource type="CapsuleShape2D" id=5]
+height = 10.2285
+
+[sub_resource type="CapsuleShape2D" id=6]
+height = 19.6891
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 7.0
+
+[sub_resource type="CapsuleShape2D" id=8]
+height = 20.7084
+
+[sub_resource type="CapsuleShape2D" id=9]
+
+[sub_resource type="CapsuleShape2D" id=10]
+radius = 6.20322
+height = 18.3992
+
+[sub_resource type="CapsuleShape2D" id=11]
+radius = 1.85443
+height = 5.52032
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+position = Vector2( 8, 0 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D2"]
+material = SubResource( 13 )
+texture = ExtResource( 12 )
+
+[node name="DustEmitter" parent="RigidBody2D2/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D2"]
+position = Vector2( 0, -1 )
+rotation = 2.55314
+scale = Vector2( 0.197903, 0.385907 )
+shape = SubResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D2"]
+position = Vector2( 1, -12 )
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+position = Vector2( -10, 26 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D3"]
+material = SubResource( 13 )
+texture = ExtResource( 8 )
+
+[node name="DustEmitter" parent="RigidBody2D3/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RigidBody2D3"]
+position = Vector2( 0, 5 )
+rotation = 1.57104
+scale = Vector2( 0.148302, 0.148303 )
+shape = SubResource( 2 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D3"]
+position = Vector2( -5.59686, -3.34702 )
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+position = Vector2( 13, 26 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D4"]
+material = SubResource( 13 )
+position = Vector2( 0, 1 )
+texture = ExtResource( 9 )
+
+[node name="DustEmitter" parent="RigidBody2D4/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="RigidBody2D4"]
+position = Vector2( 0, 4 )
+rotation = 1.53393
+scale = Vector2( 0.135368, 0.191023 )
+shape = SubResource( 3 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D4"]
+position = Vector2( 5.61859, -5.7067 )
+
+[node name="RigidBody2D5" type="RigidBody2D" parent="."]
+position = Vector2( -10, 7 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D5"]
+material = SubResource( 13 )
+texture = ExtResource( 5 )
+
+[node name="DustEmitter" parent="RigidBody2D5/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="RigidBody2D5"]
+position = Vector2( 1, 1 )
+rotation = -0.227495
+scale = Vector2( 0.173335, 0.245751 )
+shape = SubResource( 4 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D5"]
+position = Vector2( -4, -6 )
+
+[node name="RigidBody2D6" type="RigidBody2D" parent="."]
+position = Vector2( -11, 19 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D6"]
+material = SubResource( 13 )
+texture = ExtResource( 13 )
+
+[node name="DustEmitter" parent="RigidBody2D6/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="RigidBody2D6"]
+position = Vector2( -1, -2 )
+rotation = 0.714493
+scale = Vector2( 0.200001, 0.28 )
+shape = SubResource( 5 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D6"]
+position = Vector2( -6.10229, -8.57017 )
+
+[node name="RigidBody2D7" type="RigidBody2D" parent="."]
+position = Vector2( 17, 13 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D7"]
+material = SubResource( 13 )
+texture = ExtResource( 1 )
+
+[node name="DustEmitter" parent="RigidBody2D7/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="RigidBody2D7"]
+position = Vector2( 0, -2 )
+rotation = -0.596709
+scale = Vector2( 0.199996, 0.279999 )
+shape = SubResource( 6 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D7"]
+position = Vector2( 2.79917, -9.62881 )
+
+[node name="RigidBody2D8" type="RigidBody2D" parent="."]
+position = Vector2( -10, -11 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D8"]
+material = SubResource( 13 )
+texture = ExtResource( 11 )
+
+[node name="DustEmitter" parent="RigidBody2D8/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="RigidBody2D8"]
+position = Vector2( -1, 0 )
+shape = SubResource( 7 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D8"]
+position = Vector2( -4.10003, -9.22715 )
+
+[node name="RigidBody2D9" type="RigidBody2D" parent="."]
+position = Vector2( -5, 17 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D9"]
+material = SubResource( 13 )
+texture = ExtResource( 4 )
+
+[node name="DustEmitter" parent="RigidBody2D9/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="RigidBody2D9"]
+position = Vector2( -0.842796, 0.936447 )
+rotation = 0.63304
+scale = Vector2( 0.119308, 0.190105 )
+shape = SubResource( 8 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D9"]
+position = Vector2( -6.85257, -4.82626 )
+
+[node name="RigidBody2D10" type="RigidBody2D" parent="."]
+position = Vector2( 10, 16 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D10"]
+material = SubResource( 13 )
+texture = ExtResource( 6 )
+
+[node name="DustEmitter" parent="RigidBody2D10/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="RigidBody2D10"]
+position = Vector2( 0, 0.375 )
+rotation = -0.491661
+scale = Vector2( 0.191489, 0.223301 )
+shape = SubResource( 9 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D10"]
+position = Vector2( 3.61865, -7.01015 )
+
+[node name="RigidBody2D11" type="RigidBody2D" parent="."]
+position = Vector2( -1, 2 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D11"]
+material = SubResource( 13 )
+texture = ExtResource( 2 )
+
+[node name="DustEmitter" parent="RigidBody2D11/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="RigidBody2D11"]
+position = Vector2( 0.198425, 0.198425 )
+rotation = -0.441801
+scale = Vector2( 0.751911, 0.432765 )
+shape = SubResource( 10 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D11"]
+position = Vector2( 4.87966, -11.9263 )
+
+[node name="RigidBody2D12" type="RigidBody2D" parent="."]
+position = Vector2( 3, 11 )
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 12 )
+gravity_scale = 10.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D12"]
+material = SubResource( 13 )
+texture = ExtResource( 7 )
+
+[node name="DustEmitter" parent="RigidBody2D12/Sprite" instance=ExtResource( 15 )]
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="RigidBody2D12"]
+position = Vector2( -0.198425, 0.396849 )
+rotation = 1.22009
+shape = SubResource( 11 )
+
+[node name="Position2D" type="Position2D" parent="RigidBody2D12"]
+position = Vector2( 3.50169, -5.94322 )
+scale = Vector2( 1, 1 )

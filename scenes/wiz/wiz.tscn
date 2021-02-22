@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/wiz/Spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://wiz.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 11.2931, 27.5473 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "cast"
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+length = 1.33333
+step = 0.666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "run"
+length = 0.5
+loop = true
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.25, 0.333333, 0.416667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7, 8, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.25, 0.333333, 0.416667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 137.35, 193.787 ), Vector2( 137.35, 192.787 ), Vector2( 137.35, 192.787 ), Vector2( 137.35, 193.787 ), Vector2( 137.35, 192.787 ), Vector2( 137.35, 191.787 ) ]
+}
+
+[node name="wiz" type="KinematicBody2D"]
+position = Vector2( 0.210236, 1.05112 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 137.35, 193.787 )
+texture = ExtResource( 2 )
+vframes = 4
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 134.707, 198.404 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/cast = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/run = SubResource( 4 )

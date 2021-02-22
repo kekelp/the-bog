@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://shaders/dust/to_dust_particle_material.tres" type="Material" id=1]
+
+[node name="Particles2D" type="Particles2D"]
+rotation = -1.49012e-07
+emitting = false
+amount = 16384
+lifetime = 15.0
+explosiveness = 1.0
+local_coords = false
+process_material = ExtResource( 1 )

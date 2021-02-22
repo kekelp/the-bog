@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://shaders/dust/to_dust_particle.shader" type="Shader" id=1]
+[ext_resource path="res://cammello2.png" type="Texture" id=2]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/tzero = 0.0
+shader_param/duration = 4.0
+shader_param/sprite = ExtResource( 2 )

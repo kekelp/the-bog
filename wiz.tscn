@@ -1,0 +1,214 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://sprites/wiz/wiz10012.png" type="Texture" id=1]
+[ext_resource path="res://sprites/wiz/wiz10007.png" type="Texture" id=3]
+[ext_resource path="res://wiz.gd" type="Script" id=4]
+[ext_resource path="res://sprites/wiz/wiz10006.png" type="Texture" id=5]
+[ext_resource path="res://sprites/wiz/wiz10002.png" type="Texture" id=6]
+[ext_resource path="res://sprites/wiz/wiz10010.png" type="Texture" id=7]
+[ext_resource path="res://sprites/wiz/wiz10011.png" type="Texture" id=8]
+[ext_resource path="res://sprites/wiz/wiz10013.png" type="Texture" id=9]
+[ext_resource path="res://sprites/wiz/wiz10009.png" type="Texture" id=10]
+[ext_resource path="res://sprites/wiz/wiz10000.png" type="Texture" id=11]
+[ext_resource path="res://sprites/wiz/wiz10008.png" type="Texture" id=12]
+[ext_resource path="res://sprites/wiz/wiz10005.png" type="Texture" id=13]
+[ext_resource path="res://sprites/wiz/wiz10004.png" type="Texture" id=14]
+[ext_resource path="res://sprites/wiz/wiz10003.png" type="Texture" id=15]
+[ext_resource path="res://sprites/wiz/wiz10001.png" type="Texture" id=16]
+[ext_resource path="res://sprites/wiz/dark-sub.png" type="Texture" id=17]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 11 ), ExtResource( 16 ), ExtResource( 6 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 12 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 1 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "frames",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8.49776, 24.225 )
+
+[sub_resource type="Animation" id=3]
+length = 0.25
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.233333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 12, 0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ Vector2( 1, 0 ) ],
+"method": "shoot_fireball"
+}, {
+"args": [ "idle" ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.25
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 13 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "stop_being_hurt"
+} ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath(".:hurt_knockback_force:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.0257861, 57.6833, 0.0257861, -57.6833, 6874.55, -0.0180228, -529.979, 0.00831433, -134.871, -268.712, -0.0126794, 1373.7, 0.0197734, 549.482 ),
+"times": PoolRealArray( 0, 0.0333333, 0.05 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath(".:hurt_knockback_force:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.0136989, -1134.77, 0.0136989, 1134.77, -9481.93, -0.018, 1, 0.0190447, -1457.44, 2753.44, -0.0189688, -158.993, 0.114087, 1648.45, 0, -0.0954092, -543.454, 0.0366032, -1923.19 ),
+"times": PoolRealArray( 0, 0.0333333, 0.0833333, 0.233333 )
+}
+
+[sub_resource type="Animation" id=5]
+length = 1.33333
+loop = true
+step = 0.666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.533333
+loop = true
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 3, 4, 5, 6, 7, 8, 9 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 10.9604
+height = 46.572
+
+[sub_resource type="CanvasItemMaterial" id=8]
+blend_mode = 2
+
+[node name="wiz" type="KinematicBody2D"]
+position = Vector2( 4.76759, 0 )
+collision_layer = 33
+collision_mask = 88
+script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+light_mask = 8
+position = Vector2( 0, 2 )
+frames = SubResource( 1 )
+animation = "frames"
+
+[node name="ShootTimer" type="Timer" parent="."]
+
+[node name="fireball_pos_1" type="Position2D" parent="."]
+position = Vector2( 2.03996, -0.31843 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -3.16781, 9.30156 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/cast = SubResource( 3 )
+anims/hurt = SubResource( 4 )
+anims/idle = SubResource( 5 )
+anims/run = SubResource( 6 )
+
+[node name="hurt\?box" type="Area2D" parent="."]
+position = Vector2( -2.98023e-08, 0.591587 )
+scale = Vector2( 1.0311, 0.863489 )
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt\?box"]
+position = Vector2( -3.34462, 9.16824 )
+scale = Vector2( 1.15517, 1 )
+shape = SubResource( 7 )
+disabled = true
+
+[node name="DashTimer" type="Timer" parent="."]
+
+[node name="ImmunityTimer" type="Timer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_top = 0
+limit_bottom = 0
+smoothing_enabled = true
+smoothing_speed = 50.0
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.196078 )
+material = SubResource( 8 )
+z_index = 99
+texture = ExtResource( 17 )
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="area_entered" from="hurt?box" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="hurt?box" to="." method="_on_hurtbox_body_entered"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
+[connection signal="timeout" from="ImmunityTimer" to="." method="_on_ImmunityTimer_timeout"]

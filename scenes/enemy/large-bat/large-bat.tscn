@@ -1,0 +1,474 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://scenes/enemy/large-bat/large-bat.gd" type="Script" id=1]
+[ext_resource path="res://sprites/large-bat-static/large-bat0005.png" type="Texture" id=2]
+[ext_resource path="res://sprites/large-bat-static/large-bat0003.png" type="Texture" id=3]
+[ext_resource path="res://scenes/enemy/shake.tres" type="Animation" id=4]
+[ext_resource path="res://sprites/large-bat-static/large-bat0002.png" type="Texture" id=5]
+[ext_resource path="res://sprites/large-bat-static/large-bat0000.png" type="Texture" id=6]
+[ext_resource path="res://sprites/large-bat-static/large-bat0001.png" type="Texture" id=7]
+[ext_resource path="res://sprites/large-bat-static/large-bat0007.png" type="Texture" id=8]
+[ext_resource path="res://sprites/large-bat-static/large-bat0004.png" type="Texture" id=9]
+[ext_resource path="res://sprites/large-bat-static/large-bat0006.png" type="Texture" id=10]
+[ext_resource path="res://sprites/large-bat-static/large-bat0021.png" type="Texture" id=11]
+[ext_resource path="res://sprites/large-bat-static/large-bat0020.png" type="Texture" id=12]
+[ext_resource path="res://sprites/large-bat-static/large-bat0012.png" type="Texture" id=13]
+[ext_resource path="res://scenes/enemy/large-bat/bite-projectile.gd" type="Script" id=14]
+[ext_resource path="res://shaders/dust/to_dust_particle.shader" type="Shader" id=15]
+
+
+[sub_resource type="Shader" id=1]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float duration = 4.0;
+uniform float tzero = 0.0;
+
+float random (vec2 st) {
+    return fract(sin(dot(st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+void fragment() {
+
+		float t = (TIME-tzero)/duration;
+		float dist_from_vperc = t - UV.y;
+		float surv_thickness = 0.4 ;
+//		float survived = 1.0 - exp( (UV.y - t)/0.07*surv_thickness );
+//		float survived = smoothstep(t, t - surv_thickness, UV.y);
+//		if (random(UV) > survived) {
+		float time_delta = 0.4 ;
+		float erand = exp(-random(UV));
+		float death_time = UV.y  + time_delta*erand;
+		if (t < death_time) {
+			
+			COLOR = texture(TEXTURE, UV); 
+//			COLOR = vec4(1.0 -survived, 0.0, 0.0, 1.0);
+		} else {
+			COLOR = vec4(0.0, 0.0, 0.0, 0.0);
+		}
+//	COLOR = vec4(death_time*0.7, 0.0, 0.0, 1.0);
+	
+//	COLOR = vec4(0.0, vx, 0.0, 1.0);
+
+
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+render_priority = 1
+shader = SubResource( 1 )
+shader_param/duration = 4.0
+shader_param/tzero = 0.0
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 9 ), ExtResource( 2 ), ExtResource( 10 ), ExtResource( 8 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "frames",
+"speed": 5.0
+} ]
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 15 )
+shader_param/tzero = 0.0
+shader_param/duration = 4.0
+shader_param/sprite = ExtResource( 13 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 7, 5.63819 )
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 7.65963
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 15.0574
+height = 0.0
+
+[sub_resource type="Animation" id=8]
+length = 0.783333
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.433333, 0.5, 0.633333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 9 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.383334, 0.433334, 0.500001, 0.683335, 0.783335 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 20 ), Vector2( 1.99999, -16 ), Vector2( -1.00002, 17 ), Vector2( 2.60095e-06, 81 ), Vector2( 2.38397e-07, 20 ), Vector2( 0, 11 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("hitbox:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.383334, 0.433334, 0.500001, 0.683335, 0.783335 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.66968, 20 ), Vector2( 2, -14 ), Vector2( -0.33032, 26 ), Vector2( 2, 81 ), Vector2( -1, 28 ), Vector2( -0.999999, 21 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("walkbox-shape:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.383334, 0.433334, 0.500001, 0.683335, 0.783335 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 23.0023 ), Vector2( 2, -13 ), Vector2( -2, 29.0024 ), Vector2( -4, 102 ), Vector2( -0.99995, 31.0018 ), Vector2( -1, 22 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("hitbox/hitbox-shape:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.383333, 0.433333, 0.5, 0.683333, 0.783333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -0.663761, -3.8147e-06 ), Vector2( -0.58675, 3.69644 ), Vector2( -0.58675, 3.69644 ), Vector2( -6.66376, 20 ), Vector2( -0.58675, 3.69644 ), Vector2( -0.58675, 3.69644 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AnimatedSprite:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = false
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.383334, 0.433333, 0.5, 0.683333, 0.783333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -13.0264, -19.975, -13.0264, -13.0264 ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("../..")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.255, 0.633333, 0.783333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ 7.0 ],
+"method": "aim_attack"
+}, {
+"args": [  ],
+"method": "reset_rotation"
+}, {
+"args": [  ],
+"method": "after_attacking"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("hitbox:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0.5, 0.783333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("walkbox-shape:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0.5, 0.783333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("walkbox-shape/bite-projectile/CollisionShape2D:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.45, 0.55 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 5.0
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.0666667, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "turn_to_dust"
+}, {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("AnimatedSprite:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("AnimatedSprite:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"points": PoolRealArray( 19, -0.25, 0, 1.74, -3, 286, -0.116667, -30, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.11667 )
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("walkbox-shape/bite-projectile/CollisionShape2D:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.4
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("hitbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.66968, -3 ), Vector2( 2.66968, -9 ), Vector2( 2.66968, -11 ), Vector2( 2.66968, -9 ), Vector2( 2.66968, -5 ), Vector2( 2.66968, 1 ), Vector2( 2.66968, 5 ), Vector2( 2.67, 2.876 ), Vector2( 2.67, -1.124 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("walkbox-shape:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0.00226068 ), Vector2( 1, -5.99774 ), Vector2( 1, -7.99774 ), Vector2( 1, -5.99774 ), Vector2( 1, -1.99774 ), Vector2( 1, 4.00226 ), Vector2( 1, 8.00226 ), Vector2( 1, 5.878 ), Vector2( 1, 1.878 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimatedSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -3 ), Vector2( 0, -8 ), Vector2( 0, -11 ), Vector2( 0, -7 ), Vector2( 0, -4 ), Vector2( 0, 1 ), Vector2( 0, 4 ), Vector2( 0, 3 ), Vector2( 0, -1 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("../..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "redirect"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AnimatedSprite:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("hitbox:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("walkbox-shape:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("..:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -6 ), Vector2( 0, -8 ), Vector2( 0, -5 ), Vector2( 0, -2 ), Vector2( 0, 4 ), Vector2( 0, 8 ), Vector2( 0, 6 ), Vector2( 0, 2 ) ]
+}
+
+[node name="large-bat" type="Node2D"]
+position = Vector2( 0, -6 )
+script = ExtResource( 1 )
+
+[node name="interm" type="Node2D" parent="."]
+
+[node name="body" type="KinematicBody2D" parent="interm"]
+collision_layer = 2
+collision_mask = 16
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="interm/body"]
+material = SubResource( 2 )
+position = Vector2( 0, 20 )
+frames = SubResource( 3 )
+animation = "frames"
+frame = 8
+
+[node name="DustEmitter" type="Particles2D" parent="interm/body/AnimatedSprite"]
+rotation = -1.49012e-07
+emitting = false
+amount = 4096
+lifetime = 15.0
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 4 )
+
+[node name="walkbox-shape" type="CollisionShape2D" parent="interm/body"]
+position = Vector2( 1, 23.0023 )
+shape = SubResource( 5 )
+disabled = true
+
+[node name="bite-projectile" type="Area2D" parent="interm/body/walkbox-shape"]
+collision_layer = 8
+collision_mask = 32
+script = ExtResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interm/body/walkbox-shape/bite-projectile"]
+shape = SubResource( 6 )
+
+[node name="hitbox" type="Area2D" parent="interm/body"]
+position = Vector2( 2.66968, 20 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="hitbox-shape" type="CollisionShape2D" parent="interm/body/hitbox"]
+position = Vector2( -0.663761, -3.8147e-06 )
+rotation = 1.5708
+scale = Vector2( 0.664125, 0.961013 )
+shape = SubResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="interm/body"]
+anims/attack = SubResource( 8 )
+anims/die = SubResource( 9 )
+anims/fly = SubResource( 10 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+anims/shake = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="body_entered" from="interm/body/walkbox-shape/bite-projectile" to="." method="_on_biteprojectile_body_entered"]
+[connection signal="area_entered" from="interm/body/hitbox" to="." method="_on_hitbox_area_entered"]

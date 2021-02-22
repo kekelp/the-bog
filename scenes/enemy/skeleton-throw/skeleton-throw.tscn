@@ -1,0 +1,255 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://shaders/dust/to_dust_particle.shader" type="Shader" id=1]
+[ext_resource path="res://scenes/enemy/skeleton-throw/skeleton-throw.gd" type="Script" id=2]
+[ext_resource path="res://sprites/skeleton-throw/sk10002.png" type="Texture" id=3]
+[ext_resource path="res://scenes/enemy/shake.tres" type="Animation" id=4]
+[ext_resource path="res://sprites/skeleton-throw/sk10000.png" type="Texture" id=5]
+[ext_resource path="res://sprites/skeleton-throw/sk10001.png" type="Texture" id=6]
+[ext_resource path="res://sprites/skeleton-throw/sk10003.png" type="Texture" id=7]
+[ext_resource path="res://sprites/sk1.png" type="Texture" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 17.75, 25.333 )
+
+[sub_resource type="ShaderMaterial" id=2]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "frames",
+"speed": 5.0
+} ]
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/tzero = 0.0
+shader_param/duration = 4.0
+shader_param/sprite = ExtResource( 8 )
+
+[sub_resource type="Animation" id=5]
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "turn_to_dust"
+}, {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=6]
+loop = true
+step = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("hitbox/hitbox-shape:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -6.25, 7 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("hitbox/hitbox-shape:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -26.8064 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.4
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -0.0316904, 0, -1.436, 0.125304, 1.1761, -1.20315, -0.0974784, 0.678185, 0.0790866, 0.260841, -0.0554558, -0.103826, -0.156504, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -3.66701, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=8]
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("hitbox/hitbox-shape:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 2.75, 6 ), Vector2( -6.25, 7 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("hitbox/hitbox-shape:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0.0, -26.8064 ]
+}
+tracks/2/type = "animation"
+tracks/2/path = NodePath("AnimationPlayer2")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"clips": PoolStringArray( "shake", "shake" ),
+"times": PoolRealArray( 0, 0.7 )
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "show_inactive_image"
+}, {
+"args": [  ],
+"method": "shoot"
+}, {
+"args": [ "idle" ],
+"method": "play"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimatedSprite:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=9]
+radius = 11.157
+height = 28.166
+
+[node name="Node2D" type="Node2D"]
+
+[node name="skeleton" type="KinematicBody2D" parent="."]
+position = Vector2( -0.00591985, -3.66701 )
+collision_layer = 2
+collision_mask = 80
+script = ExtResource( 2 )
+
+[node name="walkbox-shape" type="CollisionShape2D" parent="skeleton"]
+position = Vector2( 2.25, 7 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="skeleton"]
+material = SubResource( 2 )
+position = Vector2( 0, 0.126681 )
+frames = SubResource( 3 )
+animation = "frames"
+
+[node name="DustEmitter" type="Particles2D" parent="skeleton/AnimatedSprite"]
+rotation = -1.49012e-07
+emitting = false
+amount = 9216
+lifetime = 15.0
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="skeleton"]
+autoplay = "idle"
+anims/die = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/shake = SubResource( 7 )
+anims/throw = SubResource( 8 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="skeleton"]
+anims/shake = ExtResource( 4 )
+
+[node name="hitbox" type="Area2D" parent="skeleton"]
+position = Vector2( 2.66968, -2.00226 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="hitbox-shape" type="CollisionShape2D" parent="skeleton/hitbox"]
+position = Vector2( -6.25, 7 )
+rotation = -0.46786
+shape = SubResource( 9 )
+
+[node name="hold_pos" type="Position2D" parent="skeleton"]
+position = Vector2( 32.5059, -17.333 )
+
+[node name="throw_pos" type="Position2D" parent="skeleton"]
+position = Vector2( -17.0009, -26.5038 )
+
+[node name="aim_pos" type="Position2D" parent="skeleton"]
+position = Vector2( -26.6908, -41.0502 )
+[connection signal="area_entered" from="skeleton/hitbox" to="skeleton" method="_on_hitbox_area_entered"]

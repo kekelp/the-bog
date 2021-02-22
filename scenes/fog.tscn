@@ -1,0 +1,216 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://cammello.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+const int OCTAVES = 5;
+const int octaves = 5;
+
+float random (in vec2 st) {
+    return fract(sin(dot(st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+
+// Based on Morgan McGuire @morgan3d
+// https://www.shadertoy.com/view/4dS3Wd
+float noise (in vec2 st) {
+    vec2 i = floor(st);
+    vec2 f = fract(st);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+    vec2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+
+float fbm (in vec2 st) {
+    // Initial values
+    float value = 0.0;
+    float amplitude = .5;
+    float frequency = 0.;
+    // Loop of octaves
+    for (int i = 0; i < OCTAVES; i++) {
+        value += amplitude * noise(st);
+        st *= 2.;
+        amplitude *= 0.59;
+    }
+    return value;
+}
+
+float yeet(vec2 uv, float time) {
+	float val;
+	for(int o=0; o<octaves; o++) {
+		
+		val = sin( float(time) /(0.12*float(o)*noise(uv*5.0)) + noise(uv*5.0));
+	}
+	return val;
+}
+
+void fragment(){
+	float time2 = TIME/2.0;
+	
+    vec2 st = UV + vec2(0.0, TIME/15.0);
+	
+	vec2 q = vec2(0.);
+	q.x = fbm( st + 1.0*time2)*0.05;
+	q.y = fbm( st + vec2(1.0))*10.0;
+	
+    vec2 r = vec2(0.);
+    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*time2 )*sin(time2*noise(st*noise(st)));
+    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*time2)*2.0;
+
+	float number = fbm( vec2(st.x*2.5, st.y*4.0) + r);
+
+//	float alpha = max(number -0.55, 0);
+	float alpha = number;
+//	alpha += sin(time2)*random(st);
+//
+//	float alpha;
+	float i1 = 0.01;
+	float iw = 0.5;
+	if ( !(number > i1 && number < i1+iw) ) {
+		alpha = number - iw;
+	} else {
+		alpha = 0.0;
+	}
+//
+	alpha = float(int(alpha*100.0)/10)*3.0/100.0;
+//	alpha = pow(alpha,4);
+//	alpha = min(alpha, 0.6);
+    vec3 color = vec3(1.0);
+    COLOR = vec4(color,alpha);
+//		float number2 = noise(UV*5.0);
+//		float number2 = yeet(UV, TIME);
+//		COLOR = vec4(1.0,1.0,1.0,number2);
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+// Author @patriciogv - 2015
+// http://patriciogonzalezvivo.com
+
+float random (in vec2 _st) {
+    return fract(sin(dot(_st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+
+// Based on Morgan McGuire @morgan3d
+// https://www.shadertoy.com/view/4dS3Wd
+float noise (in vec2 _st) {
+    vec2 i = floor(_st);
+    vec2 f = fract(_st);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+    vec2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+const int NUM_OCTAVES = 8;
+
+float fbm ( in vec2 _st) {
+    float v = 0.0;
+    float a = 0.5;
+    vec2 shift = vec2(100.0);
+    // Rotate to reduce axial bias
+    mat2 rot = mat2( vec2(cos(0.5), sin(0.5)), vec2(-sin(0.5), cos(0.50)));
+    for (int i = 0; i < NUM_OCTAVES; ++i) {
+        v += a * noise(_st*1.5);
+        _st = rot * _st * 2.0 + shift;
+        a *= 0.575;
+    }
+    return v;
+}
+
+void fragment() {
+	float time2 = TIME/5.0;
+	vec2 st;
+    st.x = UV.x*3.0;
+    st.y = UV.y*1.5 + time2/5.0 ;
+    // st += st * abs(sin(u_time*0.1)*3.0);
+    vec3 color = vec3(0.0);
+
+    vec2 q = vec2(0.);
+    q.x = fbm( st + 0.00*time2);
+    q.y = fbm( st + vec2(1.0));
+	
+//	q.x = float(int(q.x*100.0)/10)*10.0/100.0;
+//	q.y = float(int(q.y*100.0)/10)*10.0/100.0;
+
+    vec2 r = vec2(0.);
+    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*time2 );
+    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*time2);
+//
+//	r.x = float(int(r.x*100.0)/10)*10.0/100.0;
+//	r.y = float(int(r.y*100.0)/10)*10.0/100.0;
+	
+    float f = fbm(st+r);
+
+
+    color = mix(vec3(0.101961,0.619608,0.666667),
+                vec3(0.666667,0.666667,0.498039),
+                clamp((f*f)*4.0,0.0,1.0));
+
+    color = mix(color,
+                vec3(0,0,0.164706),
+                clamp(length(q),0.0,1.0));
+
+    color = mix(color,
+                vec3(0.666667,1,1),
+                clamp(length(r),0.0,1.0));
+	f = (f*f*f+.6*f*f+.5*f);
+	f = float(int(f*100.0)/10)*10.0/100.0;
+	f = clamp(f, 0, 0.9);
+	f = pow(f, 2.2);
+	
+	color.r = float(int(color.r*100.0)/10)*10.0/100.0;
+	color.g = float(int(color.g*100.0)/10)*10.0/100.0;
+	color.b = float(int(color.b*100.0)/10)*10.0/100.0;
+	
+	float grad = pow(UV.y, 2);
+    COLOR = vec4(color, grad*f);
+
+}
+"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+
+[node name="Node" type="Node"]
+
+[node name="Fog" type="Sprite" parent="."]
+visible = false
+material = SubResource( 2 )
+position = Vector2( -12, -8 )
+texture = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 412, 242 )
+scale = Vector2( 0.815802, 0.477136 )
+texture = ExtResource( 1 )
